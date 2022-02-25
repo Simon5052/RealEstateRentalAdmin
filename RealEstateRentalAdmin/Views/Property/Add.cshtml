@@ -1,0 +1,83 @@
+﻿@model AddPropertyModel
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h3  class=" col-md-8 offset-md-2">Add Property</h3>
+
+<form method="post" id="form" asp-controller="Property" asp-action="Add" enctype="multipart/form-data">
+    <div class=" col-md-8 offset-md-2">
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label">Property Name</label>
+                <input class="form-control " id="PropertyName" asp-for="PropertyName">
+            </div>
+            <div class="col-6">
+                <label class="form-label">Property Type</label>
+                <input asp-for="PropertyTypeId" id="PropertyTypeId">
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-6">
+                <label class="form-label">Region</label>
+                <input asp-for="RegionId" id="Region">
+
+            </div>
+            <div class="col-6">
+                <label class="form-label">Location</label>
+                <input asp-for="LocationId" id="LocationId">
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label">Rooms</label>
+                <input class="form-control" asp-for="Rooms" id="Rooms">
+
+            </div>
+            <div class="col-6">
+                <label class="form-label">Space</label>
+                <input class="form-control" asp-for="Space" id="Space">
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label">Cost</label>
+                <input class="form-control" asp-for="Cost" id="Cost">
+
+            </div>
+            <div class="col-6">
+                <label class="form-label">Banner Image</label>
+                <input class="form-control" type="file" id="myFile"  accept="image/png,image/jpeg"  asp-for="Picture"/>
+                @*<input asp-for="Picture" class="form-control" required />*@
+
+            </div>
+
+        </div>
+        <br />
+       
+        <br />
+
+        <div class="col-3">
+            <label class="form-label"></label>
+            <button class="btn btn-primary mb-2 form-control" type="submit">Add Property</button>
+
+
+        </div>
+
+
+    </div>
+</form>
+
+@section Scripts{
+
+    <script src="~/js/Property/Add.js?@Html.Raw(DateTime.Now.Ticks.ToString())"></script>
+}
+
+

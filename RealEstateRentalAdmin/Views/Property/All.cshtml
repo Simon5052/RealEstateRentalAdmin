@@ -1,0 +1,256 @@
+﻿@{
+    ViewData["Title"] = "All page";
+
+
+}
+
+
+
+
+
+
+<section class="site-section border-bottom col-md-10 col-lg-10 col-sm-10 offset-md-1 offset-lg-1 offset-sm-1">
+    <h4>All Property</h4>
+
+
+
+    <div>
+        @(Html.Kendo().Grid<PropertyModel>
+    ()
+    .Name("propertyGrid")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PropertyName).Title("Property Name").Width(190);
+        columns.Bound(c => c.Rooms).Title("Rooms").Width(190);
+        columns.Bound(c => c.Space).Title("Space").Width(190);
+        columns.Bound(c => c.Cost).Title("Cost").Width(190).Format("{0:N}");
+        columns.Bound(c => c.CreatedAt).Title("Added").Width(190).Format("{0: dd-MMM-yyyy hh:mm tt }");
+
+
+
+
+        columns.Command(c =>
+        {
+            c.Edit();
+            c.Destroy();
+            c.Custom("Details").Click("Details").IconClass("k-icon k-i-eye");
+        }).Width(200);
+
+
+
+    })
+
+
+
+    .ToolBar(tools => {
+        tools.Custom().Text("Add Property").IconClass("k-icon k-i-plus").HtmlAttributes(new {onclick = "GoToAddPropertyPage()" });
+        tools.Excel();
+        tools.Pdf();
+    })
+    .Excel(excel => excel
+    .FileName("Property.xlsx")
+    .Filterable(true)
+    )
+    .Pdf(pdf => pdf
+    .FileName("Property.pdf")
+    )
+    .Scrollable(s => s.Height("auto"))
+    .Groupable()
+    .Editable(e => e.Mode(GridEditMode.PopUp))
+    .Sortable()
+    .Filterable(f => f.Enabled(true).Operators(o =>
+    {
+        o.ForDate(t =>
+        {
+            t.Clear();
+            t.IsGreaterThan("Start Date");
+            t.IsLessThan("End Date");
+        });
+    })
+    )
+    .Pageable(pageable => pageable
+    .Refresh(true)
+    .PageSizes(true)
+    .ButtonCount(3).PageSizes(new int[] { 10, 100, 1000 }))
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .PageSize(100)
+    .Model(m => m.Id(p => p.PropertyId))
+    .Events(events =>
+    {
+        events.Error("error_handler");
+    })
+    .Read(read => read.Action("Property_Read", "Property"))
+    .Create(c => c.Action("User_Add", "Users"))
+    //.Update(c => c.Action("User_Update", "Users"))
+    //.Destroy(c => c.Action("User_Update", "Users"))
+
+
+
+    )
+    )
+    </div>
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Property Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label><strong>Property Name</strong></label><br />
+                            <span id="propertyName"></span>
+                        </div>
+
+
+
+                        <div class="col">
+                            <label> <strong>Property Type</strong></label><br />
+                            <span id="propertyType"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col">
+                            <label><strong>Region</strong></label><br />
+                            <span id="region"></span>
+                        </div>
+
+
+
+                        <div class="col">
+                            <label> <strong>Location</strong></label><br />
+                            <span id="location"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col">
+                            <label><strong>Rooms</strong></label><br />
+                            <span id="rooms"></span>
+                        </div>
+
+
+
+                        <div class="col">
+                            <label> <strong>Space</strong></label><br />
+                            <span id="space"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col">
+                            <label><strong>Date Added</strong></label><br />
+                            <span id="dateAdded"></span>
+                        </div>
+
+
+
+                        <div class="col">
+                            <label> <strong>Cost</strong></label><br />
+                            <span id="cost"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col">
+                            <label><strong> Property Image</strong></label><br />
+                            @*<span id="propertyImage"></span>*@
+                            <img src="" id="propertyImage" class="mImg"/>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+            $('#propertyGrid').data('kendoGrid').dataSource.transport.options.create.complete = function (e) {
+                if (e.status == 200) {
+                    $('#propertyGrid').data('kendoGrid').dataSource.read();
+                }
+            };
+            
+        })
+        function GoToAddPropertyPage() {
+
+            window.location.href = "/Property/Add"
+
+        }
+        function error_handler(e) {
+            try {
+                var errorMessage = "";
+                if (e && e.xhr) {
+                    var errorMessage = e.xhr.responseText;
+                }
+
+
+
+
+
+                if (errorMessage) {
+                    alert(errorMessage);
+                }
+
+
+
+
+
+            } catch (e) {
+                console.log(e);
+                alert("Oops! An error occurred while processing your request");
+            }
+        }
+
+        function Details(e) {
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+            $("#propertyName").html(dataItem.PropertyName);
+            $("#propertyType").html(dataItem.PropertyTypeName);
+            $("#region").html(dataItem.RegionName);
+            $("#location").html(dataItem.Address);
+            $("#rooms").html(dataItem.Rooms);
+            $("#space").html(dataItem.Space);
+            $("#dateAdded").html(dataItem.CreatedAt);
+            $("#cost").html(dataItem.Cost);
+            $("#propertyImage").attr("src",  "/Download/Image?fileName=" + dataItem.PropertyMainImage);
+            $("#exampleModalCenter").modal("show");
+             
+
+
+
+
+
+
+           
+
+
+        }
+
+
+
+    </script>
+}

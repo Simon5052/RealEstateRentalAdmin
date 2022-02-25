@@ -1,0 +1,61 @@
+﻿
+@model AgentModel
+
+<form>
+
+    @Html.HiddenFor(model => model.AgentUuid)
+
+
+    @*@Html.HiddenFor(model => model.AgentId)*@
+
+    <br />
+    <div class="k-edit-label">
+        <label>First Name:<sup class="text-danger">*</sup></label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.FirstName)
+    </div>
+    <br />
+
+
+
+    <div class="k-edit-label">
+        <label>Last Name :</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.LastName)
+    </div>
+    <br />
+
+    <div class="k-edit-label">
+        <label>Company Name:</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.CompanyName)
+    </div>
+
+    <br />
+
+    <div class="k-edit-label">
+        <label>Email :</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.Email)
+    </div>
+
+    <br />
+
+    <div class="k-edit-label">
+        <label>Phone Number :</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.PhoneNumber)
+    </div>
+
+
+
+
+</form>
+
+<style>
+</style>

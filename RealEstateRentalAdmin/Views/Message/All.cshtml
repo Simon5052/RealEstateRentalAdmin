@@ -1,0 +1,248 @@
+﻿
+@{
+    ViewData["Title"] = "All";
+    List<MeetingModel> pendingMeetings = ViewBag.PendingMeeting;
+    List<MeetingModel> completedMeeting = ViewBag.CompletedMeeting;
+}
+<section class="col-md-8 col-lg-8 col-sm-8 offset-md-2 offset-lg-2 offset-sm-2">
+
+
+    <h1>All</h1>
+
+
+    <div id="example">
+        <div class="demo-section k-content">
+            <div id="tabstrip">
+                <ul>
+                    <li class="k-state-active">
+                        Pending
+                    </li>
+                    <li>
+                        Completed
+                    </li>
+
+                </ul>
+                <div>
+                    @(Html.Kendo().Grid<MeetingModel>
+    ()
+    .Name("pendingMeetingGrid")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PropertyName).Title("Property Name").Width(190);
+        columns.Bound(c => c.FullName).Title("Full Name").Width(190);
+        columns.Bound(c => c.Email).Title("Email").Width(190);
+        columns.Bound(c => c.PhoneNumber).Title("Phone Number").Width(190).Format("{0:N}");
+        columns.Bound(c => c.MeetingScheduled).Title("Meeting Scheduled").Width(190).Format("{0: dd-MMM-yyyy hh:mm tt }");
+        columns.Bound(c => c.MeetingDate).Title("Meeting Date").Width(190).Format("{0: dd-MMM-yyyy hh:mm tt }");
+
+
+
+
+        columns.Command(c =>
+        {
+            c.Edit();
+            c.Destroy();
+        }).Width(200);
+
+
+
+    })
+
+
+
+    .ToolBar(tools => {
+        tools.Custom().Text("Add Meeting").IconClass("k-icon k-i-plus");
+        tools.Excel();
+        tools.Pdf();
+    })
+    .Excel(excel => excel
+    .FileName("DueMeetings.xlsx")
+    .Filterable(true)
+    )
+    .Pdf(pdf => pdf
+    .FileName("DueMeetings.pdf")
+    )
+    .Scrollable(s => s.Height("auto"))
+    .Groupable()
+    .Editable(e => e.Mode(GridEditMode.PopUp))
+    .Sortable()
+    .Filterable(f => f.Enabled(true).Operators(o =>
+    {
+        o.ForDate(t =>
+        {
+            t.Clear();
+            t.IsGreaterThan("Start Date");
+            t.IsLessThan("End Date");
+        });
+    })
+    )
+    .Pageable(pageable => pageable
+    .Refresh(true)
+    .PageSizes(true)
+    .ButtonCount(3).PageSizes(new int[] { 10, 100, 1000 }))
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .PageSize(100)
+    .Model(m => m.Id(p => p.MeetingId))
+    .Events(events =>
+    {
+        events.Error("error_handler");
+    })
+    .Read(read => read.Action("Pending_Read", "Message"))
+    //.Create(c => c.Action("User_Add", "Users"))
+    //.Update(c => c.Action("User_Update", "Users"))
+    //.Destroy(c => c.Action("User_Update", "Users"))
+
+
+
+    )
+    )
+
+                </div>
+                <div>
+                    @(Html.Kendo().Grid<MeetingModel>
+    ()
+    .Name("completedMeetingGrid")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PropertyName).Title("Property Name").Width(190);
+        columns.Bound(c => c.FullName).Title("Full Name").Width(190);
+        columns.Bound(c => c.Email).Title("Email").Width(190);
+        columns.Bound(c => c.PhoneNumber).Title("Phone Number").Width(190).Format("{0:N}");
+        columns.Bound(c => c.MeetingDate).Title("Added").Width(190).Format("{0: dd-MMM-yyyy hh:mm tt }");
+
+
+
+
+        columns.Command(c =>
+        {
+            c.Edit();
+            c.Destroy();
+        }).Width(200);
+
+
+
+    })
+
+
+
+    .ToolBar(tools => {
+        tools.Custom().Text("Add Meeting").IconClass("k-icon k-i-plus");
+        tools.Excel();
+        tools.Pdf();
+    })
+    .Excel(excel => excel
+    .FileName("DueMeetings.xlsx")
+    .Filterable(true)
+    )
+    .Pdf(pdf => pdf
+    .FileName("DueMeetings.pdf")
+    )
+    .Scrollable(s => s.Height("auto"))
+    .Groupable()
+    .Editable(e => e.Mode(GridEditMode.PopUp))
+    .Sortable()
+    .Filterable(f => f.Enabled(true).Operators(o =>
+    {
+        o.ForDate(t =>
+        {
+            t.Clear();
+            t.IsGreaterThan("Start Date");
+            t.IsLessThan("End Date");
+        });
+    })
+    )
+    .Pageable(pageable => pageable
+    .Refresh(true)
+    .PageSizes(true)
+    .ButtonCount(3).PageSizes(new int[] { 10, 100, 1000 }))
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .PageSize(100)
+    .Model(m => m.Id(p => p.MeetingId))
+    .Events(events =>
+    {
+        events.Error("error_handler");
+    })
+    .Read(read => read.Action("CompletedMeeting_Read", "Meeting"))
+    //.Create(c => c.Action("User_Add", "Users"))
+    //.Update(c => c.Action("User_Update", "Users"))
+    //.Destroy(c => c.Action("User_Update", "Users"))
+
+
+
+    )
+    )
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</section>
+    @section Scripts{
+        <script>
+
+            $(document).ready(function () {
+                $('#pendingMeetingGrid').data('kendoGrid').dataSource.transport.options.create.complete = function (e) {
+                    if (e.status == 200) {
+                        $('#pendingMeetingGrid').data('kendoGrid').dataSource.read();
+                    }
+                };
+
+            })
+            $("#tabstrip").kendoTabStrip({
+                animation: {
+                    open: {
+                        effects: "fadeIn"
+                    }
+                }
+            });
+
+            function error_handler(e) {
+                try {
+                    var errorMessage = "";
+                    if (e && e.xhr) {
+                        var errorMessage = e.xhr.responseText;
+                    }
+
+
+
+
+
+                    if (errorMessage) {
+                        alert(errorMessage);
+                    }
+
+
+
+
+
+                } catch (e) {
+                    console.log(e);
+                    alert("Oops! An error occurred while processing your request");
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+    }
+
+
