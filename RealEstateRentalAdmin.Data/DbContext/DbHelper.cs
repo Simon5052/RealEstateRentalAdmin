@@ -257,7 +257,7 @@ namespace RealEstateRentalAdmin.Data.DbContext
         }
 
         public string InsertAgent(string firstName, string lastName, string companyName, string email,
-            string phoneNumber)
+            string phoneNumber, string agentImage)
         {
             string dbResponse = string.Empty;
             var dbCon = CreateConnection();
@@ -272,7 +272,8 @@ namespace RealEstateRentalAdmin.Data.DbContext
                         _lastName = lastName,
                         _companyName = companyName,
                         _email = email,
-                        _phoneNumber = phoneNumber
+                        _phoneNumber = phoneNumber,
+                        _agentImage = agentImage
                     }, commandType: CommandType.StoredProcedure);
                 }
                 DisposeConnection(dbCon);

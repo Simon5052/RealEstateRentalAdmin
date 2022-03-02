@@ -15,5 +15,6 @@ namespace RealEstateRentalAdmin.Models.DbModels
         public string AgentApproved { get; set; }
         public DateTime MeetingDate { get; set; }
         public DateTime MeetingScheduled { get; set; }
+        public Boolean MeetUpCompleted { get; set; }
     }
 }

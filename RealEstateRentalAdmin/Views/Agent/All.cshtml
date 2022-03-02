@@ -3,28 +3,29 @@
     ViewData["Title"] = "All";
 }
 
-<h1>All Agents</h1>
 
 <div class="col-md-8 col-lg-8 col-sm-8 offset-md-2 offset-lg-2 offset-sm-2">
+    <h3>All Agents</h3>
+
     @(Html.Kendo().Grid<AgentModel>
     ()
     .Name("agentGrid")
     .Columns(columns =>
     {
-    columns.Bound(c => c.FirstName).Title("First Name").Width(190);
-    columns.Bound(c => c.LastName).Title("Last Name").Width(190);
-    columns.Bound(c => c.CompanyName).Title("Company Name").Width(190);
-    columns.Bound(c => c.Email).Title("Email").Width(190);
-    columns.Bound(c => c.PhoneNumber).Title("Phone Number").Width(190).Format("{0:(###) ###-####}");
+        columns.Bound(c => c.FirstName).Title("First Name").Width(190);
+        columns.Bound(c => c.LastName).Title("Last Name").Width(190);
+        columns.Bound(c => c.CompanyName).Title("Company Name").Width(190);
+        columns.Bound(c => c.Email).Title("Email").Width(190);
+        columns.Bound(c => c.PhoneNumber).Title("Phone Number").Width(190).Format("{0:(###) ###-####}");
 
 
 
 
-    columns.Command(c =>
-    {
-    c.Edit();
-    c.Destroy();
-    }).Width(200);
+        columns.Command(c =>
+        {
+            c.Edit();
+            c.Destroy();
+        }).Width(200);
 
 
 
@@ -33,9 +34,9 @@
 
 
     .ToolBar(tools => {
-    tools.Create().Text("Add Agent ");
-    tools.Excel();
-    tools.Pdf();
+        tools.Custom().Text("Add Agent").IconClass("k-icon k-i-plus").HtmlAttributes(new { onclick = "GoToAddAgentPage()" });
+        tools.Excel();
+        tools.Pdf();
     })
     .Excel(excel => excel
     .FileName("Agent.xlsx")
@@ -50,12 +51,12 @@
     .Sortable()
     .Filterable(f => f.Enabled(true).Operators(o =>
     {
-    o.ForDate(t =>
-    {
-    t.Clear();
-    t.IsGreaterThan("Start Date");
-    t.IsLessThan("End Date");
-    });
+        o.ForDate(t =>
+        {
+            t.Clear();
+            t.IsGreaterThan("Start Date");
+            t.IsLessThan("End Date");
+        });
     })
     )
     .Pageable(pageable => pageable
@@ -68,7 +69,7 @@
     .Model(m => m.Id(p => p.AgentUuid))
     .Events(events =>
     {
-    events.Error("error_handler");
+        events.Error("error_handler");
     })
     .Read(read => read.Action("Agent_Read", "Agent"))
     .Create(c => c.Action("Agent_Add", "Agent"))
@@ -106,6 +107,11 @@
 
 
         });
+
+        function GoToAddAgentPage() {
+            window.location.href = "/Agent/Add"
+
+        }
 
         //function gridParam() {
         //    return {

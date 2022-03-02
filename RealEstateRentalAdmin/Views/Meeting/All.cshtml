@@ -44,6 +44,7 @@
         {
             c.Edit();
             c.Destroy();
+            c.Custom("Complete").Click("complete").IconClass("k-icon k-i-check");
         }).Width(200);
 
 
@@ -212,6 +213,24 @@
                 }
             };
         })
+        function complete(e) {
+            $.ajax({
+                type: "POST",
+                method: "POST",
+                url: "/api/MeetingApi/MeetingCompleted?meetingUuid=efe61f95-b43a-41ad-8e04-6ae972bf0d48",
+                dataType: "json",
+                
+            }).done(function (response) {
+                if (response == "Successful") {
+                    console.log("righhhhtttt");
+                }
+            }).fail(function () {
+                alert("An error has occured");
+
+            })
+               
+        };
+        
 
         $("#tabstrip").kendoTabStrip({
             animation: {

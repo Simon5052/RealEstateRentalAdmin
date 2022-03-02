@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,6 +12,8 @@ namespace RealEstateRentalAdmin.Models.InputModels
         public string CompanyName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public string AgentImage { get; set; }
+        public IFormFile Picture { get; set; }
         
     }
 }
