@@ -12,9 +12,10 @@ namespace RealEstateRentalAdmin.Models.DbModels
         public string FullName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public string AgentApproved { get; set; }
+        public string CompletedBy { get; set; }
         public DateTime MeetingDate { get; set; }
         public DateTime MeetingScheduled { get; set; }
+        public DateTime DateCompleted { get; set; }
         public Boolean MeetUpCompleted { get; set; }
     }
 }

@@ -5,9 +5,8 @@ using System.Text;
 
 namespace RealEstateRentalAdmin.Models.InputModels
 {
-    public class AddPropertyModel
+    public class UpdatePropertyModel
     {
-
         public string PropertyName { get; set; }
         public Guid PropertyUuid { get; set; }
         public string PropertyMainImage { get; set; }
@@ -21,7 +20,5 @@ namespace RealEstateRentalAdmin.Models.InputModels
         public int Rooms { get; set; }
         public double Cost { get; set; }
         public string PropertyTypeName { get; set; }
-
-
     }
 }

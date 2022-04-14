@@ -1,0 +1,16 @@
+INSERT INTO "Region"("RegionName") VALUES ('Ahafo');
+INSERT INTO "Region"("RegionName") VALUES ('Ashanti');
+INSERT INTO "Region"("RegionName") VALUES ('Bono');
+INSERT INTO "Region"("RegionName") VALUES ('Bono East');
+INSERT INTO "Region"("RegionName") VALUES ('Cental');
+INSERT INTO "Region"("RegionName") VALUES ('Eastern');
+INSERT INTO "Region"("RegionName") VALUES ('Greater Accra');
+INSERT INTO "Region"("RegionName") VALUES ('North Eastern');
+INSERT INTO "Region"("RegionName") VALUES ('Northern');
+INSERT INTO "Region"("RegionName") VALUES ('Oti');
+INSERT INTO "Region"("RegionName") VALUES ('Savannah');
+INSERT INTO "Region"("RegionName") VALUES ('Upper East');
+INSERT INTO "Region"("RegionName") VALUES ('Upper West');
+INSERT INTO "Region"("RegionName") VALUES ('Volta');
+INSERT INTO "Region"("RegionName") VALUES ('Western North');
+INSERT INTO "Region"("RegionName") VALUES ('Western');

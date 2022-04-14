@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using RealEstateRentalAdmin.Data.Utilities;
 using RealEstateRentalAdmin.Models.ConfigModels;
 using RealEstateRentalAdmin.Models.DbModels;
@@ -19,11 +20,11 @@ namespace RealEstateRentalAdmin.Controllers
 {
     public class AgentController : Controller
     {
-         public readonly DbHelper _dbHelper;
+        public readonly IDbHelper _dbHelper;
         private readonly AppSettings _appSettings;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AgentController(DbHelper dbHelper, IWebHostEnvironment webHostEnvironment, IOptions<AppSettings> options)
+        public AgentController(IDbHelper dbHelper, IWebHostEnvironment webHostEnvironment, IOptions<AppSettings> options)
         {
             _dbHelper = dbHelper;
             _webHostEnvironment = webHostEnvironment;

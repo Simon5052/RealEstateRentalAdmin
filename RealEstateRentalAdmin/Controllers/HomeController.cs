@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using RealEstateRentalAdmin.Models;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,13 @@ namespace RealEstateRentalAdmin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        public readonly DbHelper _dbHelper;
+        //private readonly ILogger<HomeController> _logger;
+        public readonly IDbHelper _dbHelper;
 
 
-        public HomeController(ILogger<HomeController> logger, DbHelper dbHelper)
+        public HomeController(/*ILogger<HomeController> logger*/ IDbHelper dbHelper)
         {
-            _logger = logger;
+            //_logger = logger;
             _dbHelper = dbHelper;
         }
 

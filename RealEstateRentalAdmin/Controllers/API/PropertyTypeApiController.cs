@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace RealEstateRentalAdmin.Controllers.API
     [ApiController]
     public class PropertyTypeApiController : ControllerBase
     {
-        public readonly DbHelper _dbHelper;
-        public PropertyTypeApiController(DbHelper dbHelper)
+        public readonly IDbHelper _dbHelper;
+        public PropertyTypeApiController(IDbHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }

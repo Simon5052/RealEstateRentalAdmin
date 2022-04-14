@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace RealEstateRentalAdmin.Controllers.API
     [ApiController]
     public class GalleryTypeApiController : ControllerBase
     {
-        public readonly DbHelper _dbHelper;
-        public GalleryTypeApiController(DbHelper dbHelper)
+        public readonly IDbHelper _dbHelper;
+        public GalleryTypeApiController(IDbHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }

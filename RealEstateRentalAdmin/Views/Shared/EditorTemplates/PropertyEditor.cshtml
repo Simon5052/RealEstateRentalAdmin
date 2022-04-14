@@ -1,0 +1,64 @@
+﻿@model AddPropertyModel
+
+<form>
+
+    @*@Html.HiddenFor(model => model.PropertyTypeId)*@
+
+
+    @*@Html.HiddenFor(model => model.AgentId)*@
+
+    <br />
+    <div class="k-edit-label">
+        <label>Property Name:<sup class="text-danger">*</sup></label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.PropertyName)
+    </div>
+    <br />
+
+
+    <div class="k-edit-label">
+        <label>Space  :</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.Space)
+    </div>
+    <br />
+
+    <div class="k-edit-label">
+        <label>Rooms :</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.Rooms)
+    </div>
+
+    <br />
+
+    <div class="k-edit-label">
+        <label>Cost :</label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().TextBoxFor(m => m.Cost)
+    </div>
+
+    <div class="k-edit-label">
+        <label>Property Type:<sup class="text-red">*</sup></label>
+    </div>
+    <div class="k-edit-field">
+        @Html.Kendo().DropDownListFor(m => m.PropertyTypeId).DataSource(d => d.Read("AllPropertyType", "Property")).OptionLabel("-- Select Property Type --").DataTextField("PropertTypeName").DataValueField("PropertyTypeId")
+    </div>
+    <br />
+
+    @*<br />
+
+        <div class="k-edit-label">
+            <label>Phone Number :</label>
+        </div>
+        <div class="k-edit-field">
+            @Html.Kendo().ImageEditor(m => m.Picture)
+        </div>*@
+
+
+
+
+</form>

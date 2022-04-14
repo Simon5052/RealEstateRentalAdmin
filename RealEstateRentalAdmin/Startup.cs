@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using RealEstateRentalAdmin.Data.Utilities;
 using RealEstateRentalAdmin.Models.ConfigModels;
 using System;
@@ -34,7 +35,7 @@ namespace RealEstateRentalAdmin
             });
 
 
-            services.AddTransient<DbHelper>();
+            services.AddTransient<IDbHelper, DbHelper>();
             services.AddTransient<Logger>();
 
 

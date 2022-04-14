@@ -2,6 +2,7 @@
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using RealEstateRentalAdmin.Models.DbModels;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,16 @@ namespace RealEstateRentalAdmin.Controllers
 {
     public class MeetingController : Controller
     {
-        public readonly DbHelper _dbHelper;
-        public MeetingController(DbHelper dbHelper)
+        public readonly IDbHelper _dbHelper;
+        public MeetingController(IDbHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }
 
         public IActionResult All()
         {
-            ViewBag.PendingMeeting = _dbHelper.GetPendingMeeting();
-            ViewBag.CompletedMeeting = _dbHelper.CompletedMeeting();
+            //ViewBag.PendingMeeting = _dbHelper.GetPendingMeeting();
+            //ViewBag.CompletedMeeting = _dbHelper.CompletedMeeting();
             return View();
         }
 
@@ -45,24 +46,24 @@ namespace RealEstateRentalAdmin.Controllers
             return Json(data.ToDataSourceResult(request));
         }
 
-        [HttpPost]
-        public IActionResult Meeting_Delete([DataSourceRequest] DataSourceRequest request, MeetingModel model)
-        {
+        //[HttpPost]
+        //public IActionResult Meeting_Delete([DataSourceRequest] DataSourceRequest request, MeetingModel model)
+        //{
 
 
 
 
 
 
-            var dbResponse = _dbHelper.MeetingCompleted(model.MeetingUuid);
+        //    var dbResponse = _dbHelper.MeetingCompleted(model.MeetingUuid);
 
 
 
-            return Json(new[] { model }.ToDataSourceResult(request, ModelState));
+        //    return Json(new[] { model }.ToDataSourceResult(request, ModelState));
 
 
 
-        }
+        //}
 
         [HttpPost]
         public IActionResult PendingMeeting_Update([DataSourceRequest] DataSourceRequest request, MeetingModel model)
@@ -71,7 +72,7 @@ namespace RealEstateRentalAdmin.Controllers
 
 
 
-            var dbResponse = _dbHelper.UpdateAgentInMeeting(model.AgentApproved, model.MeetingUuid);
+            var dbResponse = _dbHelper.UpdateAgentInMeeting(model.CompletedBy, model.MeetingUuid);
 
 
 

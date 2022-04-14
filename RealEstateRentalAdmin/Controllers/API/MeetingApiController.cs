@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateRentalAdmin.Data.DbContext;
+using RealEstateRentalAdmin.Data.Interface;
 using RealEstateRentalAdmin.Models.DbModels;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace RealEstateRentalAdmin.Controllers.API
     [ApiController]
     public class MeetingApiController : ControllerBase
     {
-        private readonly DbHelper _dbHelper;
+        private readonly IDbHelper _dbHelper;
 
-        public MeetingApiController(DbHelper dbHelper)
+        public MeetingApiController(IDbHelper dbHelper)
         {
             _dbHelper = dbHelper;
 
@@ -27,11 +28,13 @@ namespace RealEstateRentalAdmin.Controllers.API
 
         public IActionResult MeetingCompleted(Guid meetingUuid)
         {
-            var dbResponse = _dbHelper.MeetingCompleted(meetingUuid);
+            var userName = "Kofi";
+            var dateCompleted = DateTime.Now;
+            var dbResponse = _dbHelper.MeetingCompleted(meetingUuid, userName, dateCompleted);
 
-            if (dbResponse == "Deleted")
+            if (dbResponse == "")
             {
-                return Ok("Successful");
+                return Ok(new { dbResponse});
             }
             return BadRequest("error");
         }

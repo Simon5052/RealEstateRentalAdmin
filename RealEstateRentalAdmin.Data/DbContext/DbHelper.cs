@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using RealEstateRentalAdmin.Data.Interface;
 using RealEstateRentalAdmin.Data.Utilities;
 using RealEstateRentalAdmin.Models.ConfigModels;
 using RealEstateRentalAdmin.Models.DbModels;
@@ -13,7 +14,7 @@ using System.Text;
 
 namespace RealEstateRentalAdmin.Data.DbContext
 {
-    public class DbHelper
+    public class DbHelper : IDbHelper
     {
         public readonly Logger _logger;
 
@@ -476,7 +477,7 @@ namespace RealEstateRentalAdmin.Data.DbContext
 
         }
 
-        public string MeetingCompleted(Guid meetingUuid)
+        public string MeetingCompleted(Guid meetingUuid, string completedBy, DateTime dateCompleted)
         {
             string dbResponse = string.Empty;
             var dbCon = CreateConnection();
@@ -488,6 +489,8 @@ namespace RealEstateRentalAdmin.Data.DbContext
                     dbResponse = dbCon.QueryFirstOrDefault<string>("\"MeetingCompleted\"", new
                     {
                         _meetingUuid = meetingUuid,
+                        _completedBy = completedBy,
+                        _dateCompleted = dateCompleted
 
                     }, commandType: CommandType.StoredProcedure);
                 }
@@ -504,7 +507,7 @@ namespace RealEstateRentalAdmin.Data.DbContext
 
         }
 
-        public string UpdateAgentInMeeting(string agentApproved,Guid meetingUuid)
+        public string UpdateAgentInMeeting(string agentApproved, Guid meetingUuid)
         {
             string dbResponse = string.Empty;
             var dbCon = CreateConnection();
@@ -535,13 +538,107 @@ namespace RealEstateRentalAdmin.Data.DbContext
 
         }
 
+        public string UpdateProperty(Guid propertyUuid, string propertyName, Guid propertyTypeUuid, Guid locationUuid, int space,
+            int rooms, double cost)
+        {
+            string dbResponse = string.Empty;
+            var dbCon = CreateConnection();
+            try
+            {
+                using (dbCon)
+                {
+                    dbCon.Open();
+                    dbResponse = dbCon.QueryFirstOrDefault<string>("\"UpdateProperty\"", new
+                    {
+                        _propertyUuid = propertyUuid,
+                        _propertyName = propertyName,
+                        _popertyTypeUuid = propertyTypeUuid,
+                        _locationUuid = locationUuid,
+                        _space = space,
+                        _rooms = rooms,
+                        _cost = cost,
 
 
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                DisposeConnection(dbCon);
+                return (string)dbResponse;
+            }
+            catch (Exception ex)
+            {
+                DisposeConnection(dbCon);
 
+                _logger.logError(ex);
+                return (string)dbResponse;
+            }
 
+        }
 
+        public List<LocationModel> GetAllLocation()
+        {
+            List<LocationModel> allProperties = new List<LocationModel>();
+            var dbCon = CreateConnection();
+            try
+            {
+                using (dbCon)
+                {
+                    dbCon.Open();
+                    allProperties = dbCon.Query<LocationModel>("\"GetAllLocation\"", commandType: System.Data.CommandType.StoredProcedure).ToList();
+                }
+                DisposeConnection(dbCon);
+                return (List<LocationModel>)allProperties;
+            }
+            catch (Exception ex)
+            {
+                DisposeConnection(dbCon);
+
+                _logger.logError(ex);
+                return (List<LocationModel>)allProperties;
+            }
+
+        }
+
+        public string DeleteProperty(Guid propertyUuid)
+        {
+            string dbResponse = string.Empty;
+            var dbCon = CreateConnection();
+            try
+            {
+                using (dbCon)
+                {
+                    dbCon.Open();
+                    dbResponse = dbCon.QueryFirstOrDefault<string>("\"DeleteProperty\"", new
+                    {
+                        _propertyUuid = propertyUuid,
+
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                DisposeConnection(dbCon);
+                return (string)dbResponse;
+            }
+            catch (Exception ex)
+            {
+                DisposeConnection(dbCon);
+
+                //_logger.LogError(ex);
+                return (string)dbResponse;
+            }
+
+        }
 
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+    
 }

@@ -1,0 +1,88 @@
+﻿@model PropertyModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h3 class=" col-md-8 offset-md-2">Add Property</h3>
+@*enctype="multipart/form-data"*@
+<form method="post" id="form" asp-controller="Property" asp-action="Edit">
+    <div class=" col-md-8 offset-md-2">
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label">Property Name</label>
+                <input class="form-control " id="PropertyName" asp-for="PropertyName">
+            </div>
+            <div class="col-6">
+                <label class="form-label">Property Type</label>
+                <input asp-for="PropertyTypeUuid" id="PropertyTypeId">
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-6">
+                <label class="form-label">Region</label>
+                <input asp-for="RegionUuid" id="Region">
+
+            </div>
+            <div class="col-6">
+                <label class="form-label">Location</label>
+                <input asp-for="LocationUuid" id="LocationId">
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label">Rooms</label>
+                <input class="form-control" asp-for="Rooms" id="Rooms">
+
+            </div>
+            <div class="col-6">
+                <label class="form-label">Space</label>
+                <input class="form-control" asp-for="Space" id="Space">
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label">Cost</label>
+                <input class="form-control" asp-for="Cost" id="Cost">
+
+            </div>
+            <!--<div class="col-6">
+                <label class="form-label">Banner Image</label>
+                <input class="form-control" type="file" id="myFile" accept="image/png,image/jpeg" asp-for="PropertyMainImage" />-->
+            @*<input asp-for="Picture" class="form-control" required />*@
+
+            <!--</div>-->
+
+        </div>
+        <br />
+
+        <br />
+
+        <div class="col-3">
+            <label class="form-label"></label>
+            <button class="btn btn-primary mb-2 form-control" type="submit">Update Property</button>
+
+            <input asp-for="PropertyUuid" hidden />
+
+
+        </div>
+
+
+    </div>
+</form>
+
+
+@section Scripts{
+
+    <script src="~/js/Property/Edit.js?@Html.Raw(DateTime.Now.Ticks.ToString())"></script>
+}
+
+
+
